@@ -1,18 +1,19 @@
 import requests
+import json
 
-# Define API endpoints for your devices
+# SmartThings API endpoint and access token
 smartthings_endpoint = "https://api.smartthings.com/v1/devices"
+smartthings_access_token = "YOUR_SMARTTHINGS_ACCESS_TOKEN"
+
+# Matter API endpoint (replace with actual endpoint)
 matter_endpoint = "https://your-matter-hub.local/api/devices"
 
-# Function to optimize energy usage based on AI predictions
-def optimize_energy_usage(device_id, optimal_settings):
-    # Use AI model's predictions to determine optimal settings
-    # Set device settings using SmartThings or Matter APIs
-    response = requests.put(f"{smartthings_endpoint}/{device_id}", json=optimal_settings, headers=headers)
-    return response.status_code
+# Azure Cognitive Services API endpoint and prediction key
+cognitive_services_endpoint = "YOUR_COGNITIVE_SERVICES_ENDPOINT"
+prediction_key = "YOUR_COGNITIVE_SERVICES_PREDICTION_KEY"
 
 # Fetch device data from SmartThings
-headers = {"Authorization": "Bearer YOUR_SMARTTHINGS_ACCESS_TOKEN"}
+headers = {"Authorization": f"Bearer {smartthings_access_token}"}
 response = requests.get(smartthings_endpoint, headers=headers)
 devices_data = response.json()
 
@@ -20,9 +21,19 @@ devices_data = response.json()
 for device in devices_data:
     if device["type"] == "smart_plug":
         device_id = device["id"]
-        optimal_settings = {"power": "low", "schedule": "optimized"}
-        status_code = optimize_energy_usage(device_id, optimal_settings)
-        if status_code == 200:
+        # Use the AI model to predict optimal settings
+        # ... Perform prediction using Azure Cognitive Services ...
+        predicted_energy_usage = 50  # Example predicted energy usage in watts
+        
+        # Calculate optimal settings based on predictions
+        if predicted_energy_usage > 75:
+            optimal_settings = {"power": "low", "schedule": "optimized"}
+        else:
+            optimal_settings = {"power": "high", "schedule": "default"}
+        
+        # Set optimal settings using Matter API
+        matter_response = requests.put(f"{matter_endpoint}/{device_id}", json=optimal_settings)
+        if matter_response.status_code == 200:
             print(f"Device {device_id} optimized successfully.")
         else:
             print(f"Failed to optimize device {device_id}.")
