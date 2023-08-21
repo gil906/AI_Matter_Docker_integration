@@ -23,10 +23,13 @@ for device in devices_data:
         device_id = device["id"]
         # Use the AI model to predict optimal settings
         # ... Perform prediction using Azure Cognitive Services ...
-        optimal_settings = {
-            "power": "low",
-            "schedule": "optimized"
-        }
+        predicted_energy_usage = 50  # Example predicted energy usage in watts
+        
+        # Calculate optimal settings based on predictions
+        if predicted_energy_usage > 75:
+            optimal_settings = {"power": "low", "schedule": "optimized"}
+        else:
+            optimal_settings = {"power": "high", "schedule": "default"}
         
         # Set optimal settings using Matter API
         matter_response = requests.put(f"{matter_endpoint}/{device_id}", json=optimal_settings)
