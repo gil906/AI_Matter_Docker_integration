@@ -25,11 +25,17 @@ for device in devices_data:
         # ... Perform prediction using Azure Cognitive Services ...
         predicted_energy_usage = 50  # Example predicted energy usage in watts
         
-        # Calculate optimal settings based on predictions
-        if predicted_energy_usage > 75:
+        # Consider user preferences for energy optimization
+        user_preferences = {"comfort_level": "medium", "max_usage": 100}
+        
+        # Calculate optimal settings based on predictions and user preferences
+        if predicted_energy_usage > user_preferences["max_usage"]:
             optimal_settings = {"power": "low", "schedule": "optimized"}
         else:
-            optimal_settings = {"power": "high", "schedule": "default"}
+            if user_preferences["comfort_level"] == "high":
+                optimal_settings = {"power": "high", "schedule": "comfort"}
+            else:
+                optimal_settings = {"power": "medium", "schedule": "default"}
         
         # Set optimal settings using Matter API
         matter_response = requests.put(f"{matter_endpoint}/{device_id}", json=optimal_settings)
