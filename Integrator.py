@@ -1,45 +1,54 @@
 import requests
 import json
+import logging
+import time
+# Import Azure AI library if needed
 
-# SmartThings API endpoint and access token
-smartthings_endpoint = "https://api.smartthings.com/v1/devices"
-smartthings_access_token = "YOUR_SMARTTHINGS_ACCESS_TOKEN"
+# Load environment variables
+smartthings_endpoint = os.environ.get("SMARTTHINGS_ACCESS_TOKEN")
+matter_endpoint = os.environ.get("MATTER_ENDPOINT")
+cognitive_services_endpoint = os.environ.get("COGNITIVE_SERVICES_ENDPOINT")
+prediction_key = os.environ.get("PREDICTION_KEY")
 
-# Matter API endpoint (replace with actual endpoint)
-matter_endpoint = "https://your-matter-hub.local/api/devices"
+# Function to fetch devices data with error handling
+def get_devices_data():
+    # ... (implementation from previous response)
 
-# Azure Cognitive Services API endpoint and prediction key
-cognitive_services_endpoint = "YOUR_COGNITIVE_SERVICES_ENDPOINT"
-prediction_key = "YOUR_COGNITIVE_SERVICES_PREDICTION_KEY"
+# Function to predict energy usage using Azure AI (replace placeholder)
+def predict_energy_usage():
+    # ... (implementation using Azure AI library)
 
-# Fetch device data from SmartThings
-headers = {"Authorization": f"Bearer {smartthings_access_token}"}
-response = requests.get(smartthings_endpoint, headers=headers)
-devices_data = response.json()
+# Function to load user preferences from file
+def load_user_preferences():
+    # ... (implementation from previous response)
 
-# Iterate through devices and optimize energy usage
-for device in devices_data:
-    if device["type"] == "smart_plug":
-        device_id = device["id"]
-        # Use the AI model to predict optimal settings
-        # ... Perform prediction using Azure Cognitive Services ...
-        predicted_energy_usage = 50  # Example predicted energy usage in watts
-        
-        # Consider user preferences for energy optimization
-        user_preferences = {"comfort_level": "medium", "max_usage": 100}
-        
-        # Calculate optimal settings based on predictions and user preferences
-        if predicted_energy_usage > user_preferences["max_usage"]:
-            optimal_settings = {"power": "low", "schedule": "optimized"}
-        else:
-            if user_preferences["comfort_level"] == "high":
-                optimal_settings = {"power": "high", "schedule": "comfort"}
-            else:
-                optimal_settings = {"power": "medium", "schedule": "default"}
-        
-        # Set optimal settings using Matter API
-        matter_response = requests.put(f"{matter_endpoint}/{device_id}", json=optimal_settings)
-        if matter_response.status_code == 200:
-            print(f"Device {device_id} optimized successfully.")
-        else:
-            print(f"Failed to optimize device {device_id}.")
+# Function to calculate optimal settings (refine based on requirements)
+def calculate_optimal_settings(predicted_usage, preferences):
+    # ... (adjusted logic)
+
+# Main optimization logic
+def optimize_energy_usage():
+    logging.info("Starting energy optimization...")
+
+    devices_data = get_devices_data()
+    if devices_data is None:
+        return
+
+    user_preferences = load_user_preferences()
+
+    for device in devices_data:
+        if device["type"] == "smart_plug":
+            device_id = device["id"]
+            predicted_energy_usage = predict_energy_usage()
+            optimal_settings = calculate_optimal_settings(predicted_energy_usage, user_preferences)
+
+            # Set optimal settings using Matter API
+            # ... (implementation with error handling)
+
+            logging.info(f"Device {device_id} optimized successfully.")
+
+    logging.info("Energy optimization completed.")
+
+if __name__ == "__main__":
+    logging.basicConfig(filename="energy_optimizer.log", level=logging.INFO)
+    optimize_energy_usage()
