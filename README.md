@@ -7,3 +7,4 @@ energy-optimizer/
 ├── requirements.txt
 ├── preferences.json (optional)
 └── your_script.py
+

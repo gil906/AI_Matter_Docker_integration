@@ -4,6 +4,7 @@ import logging
 import time
 # Import Azure AI library if needed
 
+
 # Load environment variables
 smartthings_endpoint = os.environ.get("SMARTTHINGS_ACCESS_TOKEN")
 matter_endpoint = os.environ.get("MATTER_ENDPOINT")
