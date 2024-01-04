@@ -58,3 +58,4 @@ for device in devices_data:
         
         # Introduce a delay to simulate real-time updates (adjust as needed)
         time.sleep(2)
+
